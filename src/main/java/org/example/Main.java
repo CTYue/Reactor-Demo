@@ -23,10 +23,16 @@ public class Main {
                 })
                 .subscribe(result -> System.out.println("Final result: " + result));
 
+        EventPublisher publisher = new EventPublisher();
+        EventSubscriber subscriber = new EventSubscriber();
+
+        // Publisher returns a Flux, subscriber subscribes to it
+        subscriber.subscribeToEvents(publisher.publishEvents());
+
         System.out.println("Main thread continues...");
 
         // Wait for tasks to finish (only for demo purpose)
-        Thread.sleep(4000);
+        Thread.sleep(100000);
         System.out.println("Main thread ends...");
     }
 
