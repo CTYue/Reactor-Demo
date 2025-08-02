@@ -1,0 +1,36 @@
+package org.example;
+
+import reactor.core.publisher.Mono;
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        System.out.println("Main thread starts...");
+
+        Mono.just("Task 1")
+                .doOnNext(task -> {
+                    System.out.println(task + " started on: " + Thread.currentThread().getName());
+                    sleep(1000);
+                })
+                .map(task -> task + " -> Task 2")
+                .doOnNext(task -> {
+                    System.out.println("Task 2 started on: " + Thread.currentThread().getName());
+                    sleep(1000);
+                })
+                .map(task -> task + " -> Task 3")
+                .doOnNext(task -> {
+                    System.out.println("Task 3 started on: " + Thread.currentThread().getName());
+                    sleep(1000);
+                })
+                .subscribe(result -> System.out.println("Final result: " + result));
+
+        System.out.println("Main thread continues...");
+
+        // Wait for tasks to finish (only for demo purpose)
+        Thread.sleep(4000);
+        System.out.println("Main thread ends...");
+    }
+
+    private static void sleep(int ms) {
+        try { Thread.sleep(ms); } catch (InterruptedException e) { e.printStackTrace(); }
+    }
+}
