@@ -25,9 +25,11 @@ public class Main {
 
         EventPublisher publisher = new EventPublisher();
         EventSubscriber subscriber = new EventSubscriber();
+        SideSubscriber sideSubscriber = new SideSubscriber();
 
         // Publisher returns a Flux, subscriber subscribes to it
         subscriber.subscribeToEvents(publisher.publishEvents());
+        sideSubscriber.subscribeToEvents(publisher.publishEvents());
 
         System.out.println("Main thread continues...");
 
